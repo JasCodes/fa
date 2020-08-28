@@ -44,7 +44,9 @@ jobs:
           flutter config --enable-linux-desktop	
           flutter config --enable-macos-desktop	
           flutter config --enable-windows-desktop
-      - run: flutter packages get
+      - run: flutter --version
+      - run: flutter channel dev
+      - run: flutter --version
       - run: flutter config
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
