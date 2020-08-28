@@ -15,7 +15,9 @@ jobs:
         os: [macos-latest]
         # os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-      - run: echo ${{env.runner_tool_cache}}/flutter
+      - run: echo $X
+        env:
+          X: ${{env.runner_tool_cache}}
       - run: echo ${{env.tool_cache}}/flutter
       # - uses: actions/checkout@v1
       # - uses: actions/setup-java@v1
