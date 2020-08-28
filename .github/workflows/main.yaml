@@ -15,9 +15,9 @@ jobs:
         os: [macos-latest]
         # os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-      - run: echo $X abc
+      - run: echo $X abc $USER
         env:
-          X: ${{env.RUNNER_TOOL_CACHE}}
+          X: ${{env.USER}}
       # - uses: actions/checkout@v1
       # - uses: actions/setup-java@v1
       #   with:
