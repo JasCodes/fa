@@ -19,18 +19,12 @@ jobs:
         # os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - uses: actions/checkout@v1
-      - run: |
-          pwd
-          cd $GITHUB_REPOSITORY
-          pwd
-          cd .fvm
-          pwd
-          cat fvm_config.json
+      - run: pwd
       - name: Setup environment variables
         shell: bash
         run: |
           echo ::set-env name=RUNNER_TOOL_CACHE::$(echo "$RUNNER_TOOL_CACHE")
-          echo ::set-env name=flutter_version::$(cat "$GITHUB_REPOSITORY/.fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
+          echo ::set-env name=flutter_version::$(cat .fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
       # - uses: actions/setup-java@v1
       #   with:
       #     java-version: "12.x"
