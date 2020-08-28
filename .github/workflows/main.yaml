@@ -24,7 +24,7 @@ jobs:
         shell: bash
         run: |
           echo ::set-env name=RUNNER_TOOL_CACHE::$(echo "$RUNNER_TOOL_CACHE")
-          echo ::set-env name=flutter_version::$(cat .fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
+          echo ::set-env name=flutter_version::$(cat ".fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
       # - uses: actions/setup-java@v1
       #   with:
       #     java-version: "12.x"
