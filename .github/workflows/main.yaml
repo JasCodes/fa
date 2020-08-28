@@ -37,10 +37,10 @@ jobs:
         with:
           flutter-version: ${{ env.flutter_version }}
           # channel: "stable"
-      - run: dart --version
-      - run: flutter --version
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
+          flutter --version
+          flutter config --enable-macos-desktop
           flutter build macos
           mkdir out
           zip out/fa.zip build/macos/Build/Products/Release/*.app
