@@ -38,13 +38,13 @@ jobs:
           flutter-version: ${{ env.flutter_version }}
           # channel: "stable"
       - name: Doctor
-        # Run doctor, for ease of debugging any issues.
         run: flutter doctor -v
       - name: Enable desktop support
         run: |
           flutter config --enable-linux-desktop	
           flutter config --enable-macos-desktop	
           flutter config --enable-windows-desktop
+      - run: flutter config
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
           flutter build macos
