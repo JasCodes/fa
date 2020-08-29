@@ -1,10 +1,14 @@
 name: Dart CI
 
 on:
-  workflow_dispatch:
   push:
     tags:
       - "*"
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        description: Git Ref (Optional)
+        required: false
   #   branches: [master]
   # pull_request:
   #   branches: [master]
@@ -13,7 +17,7 @@ env:
   java_version: "12.x"
 
 jobs:
-  test:
+  mac-builder:
     name: Flutter Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -21,14 +25,20 @@ jobs:
         os: [macos-latest]
         # os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-      - run: echo hello
-      # - uses: actions/checkout@v1
-      # - run: pwd
-      # - name: Setup environment variables
-      #   shell: bash
-      #   run: |
-      #     echo ::set-env name=RUNNER_TOOL_CACHE::$(echo "$RUNNER_TOOL_CACHE")
-      #     echo ::set-env name=flutter_version::$(cat ".fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
+      # - run: echo hello
+      - name: Clone Repository (Latest)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref == ''
+      - name: Clone Repository (Custom Ref)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref != ''
+        with:
+          ref: ${{ github.event.inputs.git-ref }}
+      - name: Setup environment variables
+        shell: bash
+        run: |
+          echo ::set-env name=RUNNER_TOOL_CACHE::$(echo "$RUNNER_TOOL_CACHE")
+          echo ::set-env name=flutter_version::$(cat ".fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
       # - uses: actions/setup-java@v1
       #   with:
       #     java-version: "12.x"
