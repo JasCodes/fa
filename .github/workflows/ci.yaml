@@ -40,10 +40,16 @@ jobs:
           echo ::set-env name=RUNNER_TOOL_CACHE::$(echo "$RUNNER_TOOL_CACHE")
           echo ::set-env name=PATH_FLUTTER::$(echo "$RUNNER_TOOL_CACHE/flutter")
           echo ::set-env name=FLUTTER_VERSION::$(cat ".fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
+          echo $RUNNER_TOOL_CACHE
+          echo $PATH_FLUTTER
+          echo $RUNNER_TOOL_CACHE
       - uses: actions/setup-java@v1
         with:
           java-version: "12.x"
       - run: git clone https://github.com/flutter/flutter.git --depth 1 -b ${FLUTTER_VERSION} $PATH_FLUTTER`
+        env:
+          PATH_FLUTTER: ${{env.PATH_FLUTTER}}
+          FLUTTER_VERSION: ${{env.FLUTTER_VERSION}}
       - run: echo "::add-path::$PATH_FLUTTER/bin"
       - name: Doctor
         run: flutter doctor -v
