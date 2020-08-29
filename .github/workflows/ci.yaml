@@ -78,7 +78,6 @@ jobs:
         with:
           files: |
             build/ios/iphoneos/Runner.app
-            build/macos/Build/Products/Release/fa.app
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # - uses: actions/setup-java@v1
