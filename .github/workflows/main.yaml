@@ -20,61 +20,60 @@ jobs:
         os: [macos-latest]
         # os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-      - uses: actions/checkout@v1
-      - run: pwd
-      - name: Setup environment variables
-        shell: bash
-        run: |
-          echo ::set-env name=RUNNER_TOOL_CACHE::$(echo "$RUNNER_TOOL_CACHE")
-          echo ::set-env name=flutter_version::$(cat ".fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
-      - name: Cache Flutter dependencies
-        uses: actions/cache@v1
-        with:
-          path: ${{env.RUNNER_TOOL_CACHE}}/flutter
-          key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: ${{ env.flutter_version }}
-          # channel: "stable"
-      - name: Doctor
-        run: flutter doctor -v
-      - name: Enable desktop support
-        run: |
-          flutter config --enable-linux-desktop	
-          flutter config --enable-macos-desktop	
-          flutter config --enable-windows-desktop
-      - run: flutter --version
-      - run: flutter channel dev
-      - run: flutter --version
-      - run: flutter config
-      - name: Build project # This would actually build your project, using zip for an example artifact
-        run: |
-          flutter build macos
-          mkdir out
-          zip out/fa.zip build/macos/Build/Products/Release/*.app
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./out/fa.zip
-          asset_name: FA
-          asset_content_type: application/zip
-          # https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+      - run: echo hello
+      # - uses: actions/checkout@v1
+      # - run: pwd
+      # - name: Setup environment variables
+      #   shell: bash
+      #   run: |
+      #     echo ::set-env name=RUNNER_TOOL_CACHE::$(echo "$RUNNER_TOOL_CACHE")
+      #     echo ::set-env name=flutter_version::$(cat ".fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
+      # - uses: actions/setup-java@v1
+      #   with:
+      #     java-version: "12.x"
+      # - name: Cache Flutter dependencies
+      #   uses: actions/cache@v1
+      #   with:
+      #     path: ${{env.RUNNER_TOOL_CACHE}}/flutter
+      #     key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
+      # - uses: subosito/flutter-action@v1
+      #   with:
+      #     flutter-version: ${{ env.flutter_version }}
+      #     # channel: "stable"
+      # - name: Doctor
+      #   run: flutter doctor -v
+      # - name: Enable desktop support
+      #   run: |
+      #     flutter config --enable-linux-desktop
+      #     flutter config --enable-macos-desktop
+      #     flutter config --enable-windows-desktop
+      # - run: flutter --version
+      # - run: flutter channel dev
+      # - run: flutter --version
+      # - run: flutter config
+      # - name: Build project # This would actually build your project, using zip for an example artifact
+      #   run: |
+      #     flutter build macos
+      #     mkdir out
+      #     zip out/fa.zip build/macos/Build/Products/Release/*.app
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ github.ref }}
+      #     release_name: Release ${{ github.ref }}
+      #     draft: false
+      #     prerelease: false
+      # - name: Upload Release Asset
+      #   id: upload-release-asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+      #     asset_path: ./out/fa.zip
+      #     asset_name: FA
+      #     asset_content_type: application/zip
+      #     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
