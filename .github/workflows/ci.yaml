@@ -72,6 +72,15 @@ jobs:
         working-directory: ./
       - run: flutter build ios --no-codesign
       - run: flutter build macos
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        # if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            build/ios/iphoneos/Runner.app
+            build/macos/Build/Products/Release/fa.app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # - uses: actions/setup-java@v1
       #   with:
       #     java-version: "12.x"
