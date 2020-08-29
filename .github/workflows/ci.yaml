@@ -44,7 +44,7 @@ jobs:
         with:
           java-version: "12.x"
       - name: Cache Flutter dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{env.PATH_FLUTTER}}
           key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_VERSION }}
