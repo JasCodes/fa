@@ -2,9 +2,11 @@ name: Dart CI
 
 on:
   push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+    tags:
+      - "*"
+  #   branches: [master]
+  # pull_request:
+  #   branches: [master]
 env:
   # flutter_version: "1.12.13+hotfix.5"
   java_version: "12.x"
