@@ -1,4 +1,14 @@
 
+<a name="0.4.1149+44"></a>
+## [0.4.1149+44](https://github.com/jascodes/fa/compare/0.4.1148+43...0.4.1149+44)
+
+> 2020-08-30
+
+### Add
+
+* Abc Add: addf Fix: asdfjadskf Remove: asdfjasldfj
+
+
 <a name="0.4.1148+43"></a>
 ## [0.4.1148+43](https://github.com/jascodes/fa/compare/0.4.1147+42...0.4.1148+43)
 
