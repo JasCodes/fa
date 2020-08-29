@@ -1,4 +1,10 @@
 
+<a name="0.4.1145+40"></a>
+## [0.4.1145+40](https://github.com/jascodes/fa/compare/0.4.1144+39...0.4.1145+40)
+
+> 2020-08-30
+
+
 <a name="0.4.1144+39"></a>
 ## [0.4.1144+39](https://github.com/jascodes/fa/compare/0.4.1143+38...0.4.1144+39)
 
