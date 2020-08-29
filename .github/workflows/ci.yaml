@@ -60,8 +60,8 @@ jobs:
           PATH_FLUTTER: ${{env.PATH_FLUTTER}}
           FLUTTER_VERSION: ${{env.FLUTTER_VERSION}}
       - run: echo "::add-path::$PATH_FLUTTER/bin"
-      - name: Doctor
-        run: flutter doctor -v
+      # - name: Doctor
+      #   run: flutter doctor -v
       - name: Enable desktop support
         run: |
           flutter --version
