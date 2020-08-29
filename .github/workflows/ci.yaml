@@ -43,16 +43,16 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: "12.x"
-      - name: Cache Flutter dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{env.PATH_FLUTTER}}
-          key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_VERSION }}
-      - name: Cache Dart Tools
-        uses: actions/cache@v2
-        with:
-          path: .dart_tool
-          key: ${{ runner.OS }}-dart-tool-cache-${{ env.FLUTTER_VERSION }}
+      # - name: Cache Flutter dependencies
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ${{env.PATH_FLUTTER}}
+      #     key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_VERSION }}
+      # - name: Cache Dart Tools
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: .dart_tool
+      #     key: ${{ runner.OS }}-dart-tool-cache-${{ env.FLUTTER_VERSION }}
       - run: |
           echo $FLUTTER_VERSION $PATH_FLUTTER
           git clone https://github.com/flutter/flutter.git --depth 1 -b $FLUTTER_VERSION $PATH_FLUTTER
