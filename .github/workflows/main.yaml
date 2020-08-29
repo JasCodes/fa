@@ -2,6 +2,9 @@ name: Dart CI
 
 on:
   workflow_dispatch:
+    inputs:
+      tags:
+        description: "Tags"
   push:
     tags:
       - "*"
