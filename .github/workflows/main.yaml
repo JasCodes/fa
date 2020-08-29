@@ -1,4 +1,4 @@
-name: Dart CI
+name: CI
 
 on:
   push:
@@ -18,12 +18,12 @@ env:
 
 jobs:
   mac-builder:
-    name: Flutter Test on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [macos-latest]
-        # os: [ubuntu-latest, windows-latest, macos-latest]
+      # os: [ubuntu-latest, windows-latest, macos-latest]
+    name: Flutter Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     steps:
       # - run: echo hello
       - name: Clone Repository (Latest)
@@ -38,7 +38,25 @@ jobs:
         shell: bash
         run: |
           echo ::set-env name=RUNNER_TOOL_CACHE::$(echo "$RUNNER_TOOL_CACHE")
-          echo ::set-env name=flutter_version::$(cat ".fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
+          echo ::set-env name=PATH_FLUTTER::$(echo "$RUNNER_TOOL_CACHE/flutter")
+          echo ::set-env name=FLUTTER_VERSION::$(cat ".fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - run: git clone https://github.com/flutter/flutter.git --depth 1 -b ${FLUTTER_VERSION} $PATH_FLUTTER`
+      - run: echo "::add-path::$PATH_FLUTTER/bin"
+      - name: Doctor
+        run: flutter doctor -v
+      - name: Enable desktop support
+        run: |
+          flutter --version
+          flutter config --enable-linux-desktop
+          flutter config --enable-macos-desktop
+          flutter config --enable-windows-desktop
+      - run: flutter pub get
+        working-directory: ./
+      - run: flutter build ios --no-codesign
+      - run: flutter build macos
       # - uses: actions/setup-java@v1
       #   with:
       #     java-version: "12.x"
