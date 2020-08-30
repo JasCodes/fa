@@ -25,16 +25,20 @@ jobs:
     name: Flutter Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
-      # - run: export X="abc"
-      # - run: echo $X
-      - run: |
-          brew tap dart-lang/dart
-          brew install dart create-dmg
-      - run: |
-          pub global activate fvm
-          echo "::add-path::$HOME/.pub-cache/bin"
-      - uses: actions/checkout@v2
-      - run: fvm install
+      - run: npm install --global create-dmg
+      - run: create-dmg --version
+      # - uses: actions/checkout@v2
+      # - run: |
+      #     brew tap dart-lang/dart
+      #     brew install dart
+      #     pub global activate fvm
+      #     echo "::add-path::$HOME/.pub-cache/bin"
+      # - run: fvm install
+      # - run: fvm flutter build macos
+      # - run: fvm flutter build ios --no-codesign
+      # - run: |
+      #     mkdir build/bundles
+      #     create-dmg  build/bundles/fa.dmg build/macos/**/*.app
       # - name: Clone Repository (Latest)
       #   uses: actions/checkout@v2
       #   if: github.event.inputs.git-ref == ''
