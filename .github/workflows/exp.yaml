@@ -31,7 +31,8 @@ jobs:
           npm install --global create-dmg
           brew tap dart-lang/dart
           brew install dart
-          pub global activate fvm cider
+          pub global activate cider
+          pub global activate fvm
           echo "::add-path::$HOME/.pub-cache/bin"
           fvm install
           mkdir build/bundles
