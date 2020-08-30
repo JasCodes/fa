@@ -25,9 +25,10 @@ jobs:
     name: Flutter Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
-      - run: export X="abc"
-      - run: echo $X
-      - run: brew update
+      # - run: export X="abc"
+      # - run: echo $X
+      - run: brew install create-dmg
+      - run: create-dmg --version
       # - name: Clone Repository (Latest)
       #   uses: actions/checkout@v2
       #   if: github.event.inputs.git-ref == ''
