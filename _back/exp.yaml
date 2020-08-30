@@ -37,7 +37,7 @@ jobs:
           mkdir build && mkdir build/bundles
       - name: Setup Flutter
         run: |
-          echon $PATH
+          echo $PATH
           fvm install
       - name: Build MacOS
         run: |

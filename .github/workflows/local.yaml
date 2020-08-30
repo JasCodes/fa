@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        description: Git Ref (Optional)
+        required: false
+  #   branches: [master]
+  # pull_request:
+  #   branches: [master]
+env:
+  # flutter_version: "1.12.13+hotfix.5"
+  java_version: "12.x"
+
+jobs:
+  mac-builder:
+    # strategy:
+    # matrix:
+    # os: [macos-latest]
+    # os: [ubuntu-latest, windows-latest, macos-latest]
+    name: Flutter Test on ${{ matrix.os }}
+    # runs-on: ${{ matrix.os }}
+    runs-on: self-hosted
+    steps:
+      - run: echo "Hi"
