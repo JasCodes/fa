@@ -32,7 +32,7 @@ jobs:
           brew install dart create-dmg
       - run: |
           pub global activate fvm
-          echo "::add-path::$HOME/.pub-cache"
+          echo "::add-path::$HOME/.pub-cache/bin"
       - uses: actions/checkout@v2
       - run: fvm install
       # - name: Clone Repository (Latest)
