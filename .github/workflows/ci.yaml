@@ -1,131 +1,131 @@
-name: CI
+# name: CI
 
-on:
-  push:
-    tags:
-      - "*"
-  workflow_dispatch:
-    inputs:
-      git-ref:
-        description: Git Ref (Optional)
-        required: false
-  #   branches: [master]
-  # pull_request:
-  #   branches: [master]
-env:
-  # flutter_version: "1.12.13+hotfix.5"
-  java_version: "12.x"
+# on:
+#   push:
+#     tags:
+#       - "*"
+#   workflow_dispatch:
+#     inputs:
+#       git-ref:
+#         description: Git Ref (Optional)
+#         required: false
+#   #   branches: [master]
+#   # pull_request:
+#   #   branches: [master]
+# env:
+#   # flutter_version: "1.12.13+hotfix.5"
+#   java_version: "12.x"
 
-jobs:
-  mac-builder:
-    strategy:
-      matrix:
-        os: [macos-latest]
-      # os: [ubuntu-latest, windows-latest, macos-latest]
-    name: Flutter Test on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    steps:
-      # - run: echo hello
-      - name: Clone Repository (Latest)
-        uses: actions/checkout@v2
-        if: github.event.inputs.git-ref == ''
-      - name: Clone Repository (Custom Ref)
-        uses: actions/checkout@v2
-        if: github.event.inputs.git-ref != ''
-        with:
-          ref: ${{ github.event.inputs.git-ref }}
-      - name: Setup environment variables
-        shell: bash
-        run: |
-          echo ::set-env name=RUNNER_TOOL_CACHE::$(echo "$RUNNER_TOOL_CACHE")
-          echo ::set-env name=PATH_FLUTTER::$(echo "$RUNNER_TOOL_CACHE/flutter")
-          echo ::set-env name=FLUTTER_VERSION::$(cat ".fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
-      # - name: Cache Flutter dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: ${{env.PATH_FLUTTER}}
-      #     key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_VERSION }}
-      # - name: Cache Dart Tools
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: .dart_tool
-      #     key: ${{ runner.OS }}-dart-tool-cache-${{ env.FLUTTER_VERSION }}
-      - run: |
-          echo $FLUTTER_VERSION $PATH_FLUTTER
-          git clone https://github.com/flutter/flutter.git --depth 1 -b $FLUTTER_VERSION $PATH_FLUTTER
-        env:
-          PATH_FLUTTER: ${{env.PATH_FLUTTER}}
-          FLUTTER_VERSION: ${{env.FLUTTER_VERSION}}
-      - run: echo "::add-path::$PATH_FLUTTER/bin"
-      # - name: Doctor
-      #   run: flutter doctor -v
-      - name: Enable desktop support
-        run: |
-          flutter --version
-          flutter config --enable-linux-desktop
-          flutter config --enable-macos-desktop
-          flutter config --enable-windows-desktop
-      - run: flutter pub get
-        working-directory: ./
-      - run: flutter build ios --no-codesign
-      - run: flutter build macos
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        # if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: |
-            build/ios/iphoneos/Runner.app
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # - uses: actions/setup-java@v1
-      #   with:
-      #     java-version: "12.x"
-      # - name: Cache Flutter dependencies
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: ${{env.RUNNER_TOOL_CACHE}}/flutter
-      #     key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
-      # - uses: subosito/flutter-action@v1
-      #   with:
-      #     flutter-version: ${{ env.flutter_version }}
-      #     # channel: "stable"
-      # - name: Doctor
-      #   run: flutter doctor -v
-      # - name: Enable desktop support
-      #   run: |
-      #     flutter config --enable-linux-desktop
-      #     flutter config --enable-macos-desktop
-      #     flutter config --enable-windows-desktop
-      # - run: flutter --version
-      # - run: flutter channel dev
-      # - run: flutter --version
-      # - run: flutter config
-      # - name: Build project # This would actually build your project, using zip for an example artifact
-      #   run: |
-      #     flutter build macos
-      #     mkdir out
-      #     zip out/fa.zip build/macos/Build/Products/Release/*.app
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ github.ref }}
-      #     release_name: Release ${{ github.ref }}
-      #     draft: false
-      #     prerelease: false
-      # - name: Upload Release Asset
-      #   id: upload-release-asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-      #     asset_path: ./out/fa.zip
-      #     asset_name: FA
-      #     asset_content_type: application/zip
-      #     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+# jobs:
+#   mac-builder:
+#     strategy:
+#       matrix:
+#         os: [macos-latest]
+#       # os: [ubuntu-latest, windows-latest, macos-latest]
+#     name: Flutter Test on ${{ matrix.os }}
+#     runs-on: ${{ matrix.os }}
+#     steps:
+#       # - run: echo hello
+#       - name: Clone Repository (Latest)
+#         uses: actions/checkout@v2
+#         if: github.event.inputs.git-ref == ''
+#       - name: Clone Repository (Custom Ref)
+#         uses: actions/checkout@v2
+#         if: github.event.inputs.git-ref != ''
+#         with:
+#           ref: ${{ github.event.inputs.git-ref }}
+#       - name: Setup environment variables
+#         shell: bash
+#         run: |
+#           echo ::set-env name=RUNNER_TOOL_CACHE::$(echo "$RUNNER_TOOL_CACHE")
+#           echo ::set-env name=PATH_FLUTTER::$(echo "$RUNNER_TOOL_CACHE/flutter")
+#           echo ::set-env name=FLUTTER_VERSION::$(cat ".fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
+#       - uses: actions/setup-java@v1
+#         with:
+#           java-version: "12.x"
+#       # - name: Cache Flutter dependencies
+#       #   uses: actions/cache@v2
+#       #   with:
+#       #     path: ${{env.PATH_FLUTTER}}
+#       #     key: ${{ runner.OS }}-flutter-install-cache-${{ env.FLUTTER_VERSION }}
+#       # - name: Cache Dart Tools
+#       #   uses: actions/cache@v2
+#       #   with:
+#       #     path: .dart_tool
+#       #     key: ${{ runner.OS }}-dart-tool-cache-${{ env.FLUTTER_VERSION }}
+#       - run: |
+#           echo $FLUTTER_VERSION $PATH_FLUTTER
+#           git clone https://github.com/flutter/flutter.git --depth 1 -b $FLUTTER_VERSION $PATH_FLUTTER
+#         env:
+#           PATH_FLUTTER: ${{env.PATH_FLUTTER}}
+#           FLUTTER_VERSION: ${{env.FLUTTER_VERSION}}
+#       - run: echo "::add-path::$PATH_FLUTTER/bin"
+#       # - name: Doctor
+#       #   run: flutter doctor -v
+#       - name: Enable desktop support
+#         run: |
+#           flutter --version
+#           flutter config --enable-linux-desktop
+#           flutter config --enable-macos-desktop
+#           flutter config --enable-windows-desktop
+#       - run: flutter pub get
+#         working-directory: ./
+#       - run: flutter build ios --no-codesign
+#       - run: flutter build macos
+#       - name: Release
+#         uses: softprops/action-gh-release@v1
+#         # if: startsWith(github.ref, 'refs/tags/')
+#         with:
+#           files: |
+#             build/ios/iphoneos/Runner.app
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       # - uses: actions/setup-java@v1
+#       #   with:
+#       #     java-version: "12.x"
+#       # - name: Cache Flutter dependencies
+#       #   uses: actions/cache@v1
+#       #   with:
+#       #     path: ${{env.RUNNER_TOOL_CACHE}}/flutter
+#       #     key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
+#       # - uses: subosito/flutter-action@v1
+#       #   with:
+#       #     flutter-version: ${{ env.flutter_version }}
+#       #     # channel: "stable"
+#       # - name: Doctor
+#       #   run: flutter doctor -v
+#       # - name: Enable desktop support
+#       #   run: |
+#       #     flutter config --enable-linux-desktop
+#       #     flutter config --enable-macos-desktop
+#       #     flutter config --enable-windows-desktop
+#       # - run: flutter --version
+#       # - run: flutter channel dev
+#       # - run: flutter --version
+#       # - run: flutter config
+#       # - name: Build project # This would actually build your project, using zip for an example artifact
+#       #   run: |
+#       #     flutter build macos
+#       #     mkdir out
+#       #     zip out/fa.zip build/macos/Build/Products/Release/*.app
+#       # - name: Create Release
+#       #   id: create_release
+#       #   uses: actions/create-release@v1
+#       #   env:
+#       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       #   with:
+#       #     tag_name: ${{ github.ref }}
+#       #     release_name: Release ${{ github.ref }}
+#       #     draft: false
+#       #     prerelease: false
+#       # - name: Upload Release Asset
+#       #   id: upload-release-asset
+#       #   uses: actions/upload-release-asset@v1
+#       #   env:
+#       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       #   with:
+#       #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+#       #     asset_path: ./out/fa.zip
+#       #     asset_name: FA
+#       #     asset_content_type: application/zip
+#       #     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types

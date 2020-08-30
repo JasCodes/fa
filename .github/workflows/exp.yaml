@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        description: Git Ref (Optional)
+        required: false
+  #   branches: [master]
+  # pull_request:
+  #   branches: [master]
+env:
+  # flutter_version: "1.12.13+hotfix.5"
+  java_version: "12.x"
+
+jobs:
+  mac-builder:
+    strategy:
+      matrix:
+        os: [macos-latest]
+      # os: [ubuntu-latest, windows-latest, macos-latest]
+    name: Flutter Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - run: export X="abc"
+      - run: echo $X
+      - run: brew update
+      # - name: Clone Repository (Latest)
+      #   uses: actions/checkout@v2
+      #   if: github.event.inputs.git-ref == ''
+      # - name: Clone Repository (Custom Ref)
+      #   uses: actions/checkout@v2
+      #   if: github.event.inputs.git-ref != ''
+      #   with:
+      #     ref: ${{ github.event.inputs.git-ref }}
+      # - name: Setup environment variables
+      #   shell: bash
+      #   run: |
+      #     echo ::set-env name=RUNNER_TOOL_CACHE::$(echo "$RUNNER_TOOL_CACHE")
+      #     echo ::set-env name=PATH_FLUTTER::$(echo "$RUNNER_TOOL_CACHE/flutter")
+      #     echo ::set-env name=FLUTTER_VERSION::$(cat ".fvm/fvm_config.json" | jq '.["flutterSdkVersion"]' -r)
