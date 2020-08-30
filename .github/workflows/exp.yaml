@@ -27,8 +27,10 @@ jobs:
     steps:
       # - run: export X="abc"
       # - run: echo $X
-      - run: brew install create-dmg
-      - run: create-dmg --version
+      - run: brew install create-dmg dart
+      - run: pub activate fvm
+      - uses: actions/checkout@v2
+      - run: fvm install
       # - name: Clone Repository (Latest)
       #   uses: actions/checkout@v2
       #   if: github.event.inputs.git-ref == ''
