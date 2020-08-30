@@ -25,21 +25,35 @@ jobs:
     name: Flutter Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
-      - run: node --version
-      # - run: npm install --global create-dmg
-      # - run: create-dmg --version
       # - uses: actions/checkout@v2
-      # - run: |
+      # - name: Setup
+      #   run: |
+      #     npm install --global create-dmg
       #     brew tap dart-lang/dart
       #     brew install dart
-      #     pub global activate fvm
+      #     pub global activate fvm cider
       #     echo "::add-path::$HOME/.pub-cache/bin"
-      # - run: fvm install
-      # - run: fvm flutter build macos
-      # - run: fvm flutter build ios --no-codesign
-      # - run: |
+      #     fvm install
       #     mkdir build/bundles
-      #     create-dmg  build/bundles/fa.dmg build/macos/**/*.app
+      # - name: Build MacOS
+      #   run: |
+      #     flutter build macos --build-name $(echo $(cider version) | cut -d+ -f1) --build-number $(echo $(cider version) | cut -d+ -f2)
+      - run: |
+          mkdir build
+          cd build
+          mkdir bundles
+          cd bundles
+          echo "hello" > hello.txt
+          echo "weor" > hellow.txt
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        # if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            build/bundles
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - run: fvm flutter build ios --no-codesign
       # - name: Clone Repository (Latest)
       #   uses: actions/checkout@v2
       #   if: github.event.inputs.git-ref == ''
