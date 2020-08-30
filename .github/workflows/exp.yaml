@@ -27,7 +27,9 @@ jobs:
     steps:
       # - run: export X="abc"
       # - run: echo $X
-      - run: brew install create-dmg dart
+      - run: |
+          brew tap dart-lang/dart
+          brew install dart create-dmg
       - run: pub activate fvm
       - uses: actions/checkout@v2
       - run: fvm install
