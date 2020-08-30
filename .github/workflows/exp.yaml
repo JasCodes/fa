@@ -25,8 +25,9 @@ jobs:
     name: Flutter Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
-      - run: npm install --global create-dmg
-      - run: create-dmg --version
+      - run: node --version
+      # - run: npm install --global create-dmg
+      # - run: create-dmg --version
       # - uses: actions/checkout@v2
       # - run: |
       #     brew tap dart-lang/dart
