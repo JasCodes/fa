@@ -34,8 +34,11 @@ jobs:
           pub global activate cider
           pub global activate fvm
           echo "::add-path::$HOME/.pub-cache/bin"
-          fvm install
           mkdir build/bundles
+      - name: Setup Flutter
+        run: |
+          echon $PATH
+          fvm install
       - name: Build MacOS
         run: |
           flutter build macos --build-name $(echo $(cider version) | cut -d+ -f1) --build-number $(echo $(cider version) | cut -d+ -f2)
