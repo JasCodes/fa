@@ -25,26 +25,20 @@ jobs:
     name: Flutter Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
-      # - uses: actions/checkout@v2
-      # - name: Setup
-      #   run: |
-      #     npm install --global create-dmg
-      #     brew tap dart-lang/dart
-      #     brew install dart
-      #     pub global activate fvm cider
-      #     echo "::add-path::$HOME/.pub-cache/bin"
-      #     fvm install
-      #     mkdir build/bundles
-      # - name: Build MacOS
-      #   run: |
-      #     flutter build macos --build-name $(echo $(cider version) | cut -d+ -f1) --build-number $(echo $(cider version) | cut -d+ -f2)
-      - run: |
-          mkdir build
-          cd build
-          mkdir bundles
-          cd bundles
-          echo "hello" > hello.txt
-          echo "weor" > hellow.txt
+      - uses: actions/checkout@v2
+      - name: Setup
+        run: |
+          npm install --global create-dmg
+          brew tap dart-lang/dart
+          brew install dart
+          pub global activate fvm cider
+          echo "::add-path::$HOME/.pub-cache/bin"
+          fvm install
+          mkdir build/bundles
+      - name: Build MacOS
+        run: |
+          flutter build macos --build-name $(echo $(cider version) | cut -d+ -f1) --build-number $(echo $(cider version) | cut -d+ -f2)
+          create-dmg build/macos/**/*.app build/bundles/
       - name: Release
         uses: softprops/action-gh-release@v1
         # if: startsWith(github.ref, 'refs/tags/')
